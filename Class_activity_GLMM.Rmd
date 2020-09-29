@@ -1,0 +1,142 @@
+---
+title: 'Class Activity: GLMMs'
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# The Generalized Linear Mixed-Effects Model
+
+## Review: the Generalized Linear Model
+
+Recall the following structure of the GLM:
+
+- Random component:
+
+$$
+Y_i|x_{i1},...,x_{ik}\sim f(x_{i1}...x_{ik}) 
+$$
+where in this class we have seen $f(x_{i1}...x_{ik})$ as a member of the one-parameter exponentional family, specifically either Binomial or Poisson. The probit distribution also qualifies, as presented in the Week 5 student presentations.
+
+- Linear component:
+
+$$
+\eta_i=\beta_0+\beta_1x_{i1}+\cdots+\beta_kx_{ik}
+$$
+
+- Link function:
+
+$$
+g(\mu_i)=\eta_i
+$$
+and 
+
+$$
+g^{-1}(\eta_i)=\mu_i
+$$
+where $\mu_i$ has been $\lambda_i$ for Poisson regression, and $\pi_i$ for logistic regression.
+
+## The Generalized Linear Mixed-Effects Model (GLMM)
+
+- Random component:
+$Y_{ij}$ is a member of the exponential family as before, where 
+
+  - $Var(Y_{ij})=\phi v(\mu_{ij})\lambda_{ij}$ ($\phi$ is the dispersion parameter, which is 1 for the Binomial and Poisson distributions) - this just means that the random component follows an exponential distribution, so it can fit into the class of generalized linear models
+  - $Cov(Y_{ij},Y_{ij'})=\phi\sqrt{v(\mu_{ij})}\sqrt{v(\mu_{ij'})}\lambda_{ijj'}$ (there is correlation between responses for individuals in the same group)
+  - $Y_{ij},Y_{ij'}$ are independent for $i\neq i'$ (the responses are independent if the individuals are *not* in the same group)
+
+- Linear component:
+
+  - $\eta_{ij}$ is the linear predictor for the $j^{th}$ individual in the $i^{th}$ group (or cluster)
+
+$$
+\eta_{ij}=\beta_0+\beta_1x_{1ij}+\cdots+\beta_px_{pij}+\delta_{1i}z_{1ij}+\cdots+\delta_{qi}z_{qij}
+$$
+
+where $\delta_{ki}\sim Normal(0, \psi^2_k)$ and $Cov(\delta_{ki}, \delta_{k'i})=\psi_{kk'}$; $\delta_{ki}, \delta_{k'i'}$ are independent for $i\neq i'$.
+
+- Link function:
+$$
+g(\mu_{ij})=E(Y_{ij}|\delta_{1i},...,\delta_{qi})=\eta_{ij}
+$$
+
+In summary, the main differences between a GLM and a GLMM is that the GLMM allows for correlation between observations within the same group, and a GLM has no such hierarchical structure.
+
+# Example: College Basketball Referees
+
+```{r}
+library(lme4)
+bball <- read.csv("https://raw.githubusercontent.com/proback/BeyondMLR/master/data/basketball0910.csv")
+str(bball)
+```
+
+We have three levels here, foul (our "individual" level variable), game (our first group level variable), and team (our second group level variable). 
+
+### CONSIDERING TWO LEVELS, FOUL and GAME:
+
+### (1) Consider the relationship between home team foul (`foul.home`) and the foul differential (`foul.diff`). Write down the form for a logistic regression model with no random effects, carefully defining each component. In other words, what is the form of the model if I wanted to fit a separate model for each game?
+
+*Random component:*
+
+
+
+*Linear component:*
+
+
+
+*Link function*:
+
+
+
+### (2) Fit the model in (1) for Game 110.
+
+```{r}
+
+```
+
+### (3) Now, instead of specifying a different model for each foul and game combination, instead write down the form of a hierarchical model with a random intercept and a random slope for each game. You may want to consult the Intro_LMM_R notes if you would like a reference on how to build this up hierachically.
+
+*Random component:*
+
+
+
+*Linear component:*
+
+
+
+*Link function*:
+
+
+### (4) Fit the model in (3). You will need to use the `glmer()` function from the `lme4` package. The syntax is the same as for the `lmer()` function from the same package. In addition, you will need to specify the `family` as you did when you used the `glm()` function.
+
+```{r}
+
+```
+
+The models considered above are examples where we assume that clustering (correlation) happens by game. However, this is not the only way in which clustering might occur.
+
+### CONSIDERING THREE LEVELS, FOUL, GAME, and TEAM:
+
+What if we assumed that fouls called on the same home team across all games must be correlated? This implies that we should have a random effect not only for each game (`game`), but also for home team (`hometeam`) and visitor (`visitor`).
+
+### (5) Specify a hierarchical model with a random intercept for each game, hometeam, and visitor. You will need to add extra subscripts, one for hometeam and one for visitor (there will be four in total).
+
+*Random component:*
+
+
+
+*Linear component:*
+
+
+
+*Link function*:
+
+
+### (6) Fit the model in (5). Hint, you will need multiple random effects, so you will have multiple sets of parentheses in which you will specify the random effects - one for each random intercept.
+
+```{r}
+
+```
+
