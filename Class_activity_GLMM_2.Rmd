@@ -1,0 +1,58 @@
+---
+title: 'Class Activity: GLMMs'
+subtitle: 'STAT 340: Applied Regression'
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(dplyr)
+library(tidyverse)
+library(lattice)
+library(lme4)
+bball <- read.csv("https://raw.githubusercontent.com/proback/BeyondMLR/master/data/basketball0910.csv")
+names(bball)
+```
+
+We will continue working with the Basketball Referee data set in this class activity. 
+
+- `game`: unique game identification number
+- `date`: date game was played (YYYYMMDD)
+- `visitor`: visiting team abbreviation
+- `hometeam`: home team abbreviation
+- `foul.num`: cumulative foul number within game
+- `foul.home`: indicator if foul was called on the home team
+- `foul.vis`: indicator if foul was called on the visiting team
+- `foul.diff`: the difference in fouls before the current foul was called (home - visitor)
+- `score.diff`: the score differential before the current foul was called (home - visitor)
+- `lead.vis`: indicator if visiting team has the lead
+- `lead.home`: indicator if home team has the lead
+- `previous.foul.home`: indicator if previous foul was called on the home team
+- `previous.foul.vis`: indicator if previous foul was called on the visiting team
+- `foul.type`: categorical variable if current foul was offensive, personal, or shooting
+- `shooting`: indicator if foul was a shooting foul
+- `personal`: indicator if foul was a personal foul
+- `offensive`: indicator if foul was an offensive foul
+- `time`: number of minutes left in the first half when foul called
+
+### (1) Fit a single generalized linear mixed effects model to (1) estimate the effect of foul differential on the odds of a home foul, after adjusting for important covariates, (2) find important interactions with foul differential, recognizing that the effect of differential may depend on the type of foul committed, or the time, and (3) to account for the random effects of game, visitor, and home team.
+
+```{r}
+
+```
+
+### (2) Interpret the (fixed) intercept on the odds scale.
+
+
+
+### (3) Is there evidence that the referees are more likely to call a foul on the team that is in the lead?
+
+
+## References 
+
+1. J. Fox, \emph{Applied Regression Analysis \& Generalized Linear Models}, 3rd Ed. 2016.
+
+2. J. Fox and S. Weisberg, \emph{An R Companion to Applied Regression}, 3rd Ed. 2019.
+
+3. Julie Legler and Paul Roback, \emph{Broadening Your Statistical Horizons: Generalized Linear Models and Multilevel Models}, 2019.
